@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
-    apiSecret: '', 
+    apiSecret: process.env.apiSecret, 
     public: {
       apiBase: 'https://sheets.googleapis.com/v4/spreadsheets/1A38gTrIjN2dMQ8Ktu3R__TF3-yPMYH3RAD4vZf9MUVE/values/csv', 
     }
