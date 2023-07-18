@@ -1,9 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
-    apiSecret: process.env.apiSecret, 
     public: {
-      apiBase: 'https://sheets.googleapis.com/v4/spreadsheets/1A38gTrIjN2dMQ8Ktu3R__TF3-yPMYH3RAD4vZf9MUVE/values/csv', 
+      apiBase: 'https://script.google.com/macros/s/AKfycbwKCY4mVd8LjWt6m700s7HXjDqzMwhmN6z5XZPupWzKZ3kUzamejsTpstimFeIvnZr9/exec', 
     }
   },
   devtools: { enabled: true },

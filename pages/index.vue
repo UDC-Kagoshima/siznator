@@ -121,23 +121,26 @@
     },
 
     async setup() {
-      const config = useRuntimeConfig()
-      const { data: competition_json } = await useFetch(config.public.apiBase + '?key='+ config.apiSecret)
-      const competition_values = competition_json.value.values;
-      competition_json.value.values.slice(1).forEach((row) => {
+      const config = useRuntimeConfig();
+      const { data: competition_json } = await useFetch(config.public.apiBase);
+      const competition_values = competition_json;
+      console.log(typeof(competition_values));
+      Object.keys(competition_values).forEach((row) => {
+        console.log(row);
         const competition = {
-          id: row[0],
-          competition: row[1],
-          municipality: row[2],
-          start_date: row[3],
-          finish_date: row[4],
-          venue: row[5],
-          latitude: row[6],
-          longitude: row[7],
-          address: row[8],
-          Restaurants_URL: row[9],
+          id: row.id,
+          competition: row.Competition,
+          municipality: row.Municipality,
+          start_date: row.StartDate,
+          finish_date: row.FinisihDate,
+          venue: row.Venue,
+          latitude: row.latitude,
+          longitude: row.longitude,
+          address: row.Address,
+          Restaurants_URL: row.Restaurants_URL,
         };
-        competitions.push(competition);
+      //console.log(competition);
+      competitions.push(competition);
       });
       return {
         competitions
