@@ -1,7 +1,7 @@
 <template>
-  <head>
+  <div>
     <title>シズネーター</title>
-  </head>
+  </div>
     <div class="app-name app-Link">
       シズネーター
     </div>
@@ -63,19 +63,20 @@
 
   <div class="row">
     <div v-for="competition in filteredCompetitions" :key="competition.id" class="col-md-4">
-      <div class="competition-card text-center ">
-        <h3 class="competition-title">{{ competition.competition_name }}</h3>
-        <p>市町村名: {{ competition.municipality }}</p>
-        <p>開始日: {{ competition.start_date }}</p>
-        <p>終了日: {{ competition.finish_date }}</p>
-        <p>会場: {{ competition.venue }}</p>
-        <div class="button-row">
-            <button class="directions-button round-button" @click="redirectToDirections(competition.latitude,competition.longitude)">
-              ルート表示
-            </button>
-            <button class="directions-button round-button" @click="redirectToRestaurants(competition.Restaurants_URL)">
-              会場周辺の飲食店情報
-            </button>
+      <div class="competition-card">
+
+          <div class="font-layer">
+          <h3 class="competition-title">{{ competition.competition_name }}</h3>
+          <p>開催日: {{ displayFormatDate(competition.start_date) }}~{{ displayFormatDate(competition.finish_date) }}</p>
+          <p>会場: {{ competition.venue }}({{ competition.municipality }})</p>
+          <div class="button-row">
+          <button class="directions-button round-button" @click="redirectToDirections(competition.latitude,competition.longitude)">
+            ルート表示
+          </button>
+          <button class="directions-button round-button" @click="redirectToRestaurants(competition.Restaurants_URL)">
+            会場周辺の飲食店情報
+          </button>
+        </div>
         </div>
       </div>
     </div>
@@ -141,16 +142,24 @@ export default defineComponent({
   },
   methods: {
     redirectToDirections(VenueLatitude, VenueLongitude) {
+      console.log("method");
       if (navigator.geolocation) {
+        console.log("許可");
         navigator.geolocation.getCurrentPosition(function(position) {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           const directionsUrl = 'https://www.google.com/maps/dir/' + latitude + ',' + longitude + '/' + VenueLatitude + ',' + VenueLongitude;
-          window.open(directionsUrl, '_blank')
+          location.href = directionsUrl;
         });
       } else {
         alert("このブラウザではジオロケーションがサポートされていません。");
       }
+    },
+
+    
+    displayFormatDate(date) {
+      const formattedDate = new Date(date).toLocaleDateString('ja-JP');
+      return formattedDate.replace(/\//g, '/');
     },
 
     formatDate(date) {
@@ -198,6 +207,7 @@ export default defineComponent({
     },
 
     redirectToRestaurants(url) {
+      console.log(url);
       window.open(url, '_blank');
     },
   },
@@ -393,6 +403,15 @@ export default defineComponent({
 
 }
 
+.background-layer{
+  background-color: #55aade77;
+}
+
+.competition-card img {
+  width: 20%;    /* 横幅を割合で指定 */
+  height: auto;  /* 高さは自動指定 */
+}
+
 .competition-card h3 {
   font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", sans-serif !important;
   font-weight: bold;
@@ -405,8 +424,8 @@ export default defineComponent({
 }
 
 .competition-card {
-  background-color: #B3E0F2;
-  color: #2458BF;
+  background-color: #55a9de;
+  color: #FFF;
   padding: 20px;
   margin-bottom: 20px;
   cursor: pointer;
@@ -414,6 +433,8 @@ export default defineComponent({
   text-align: center;
   border-radius: 30px;
   margin: 1.5em 15px 1.5em 30px;
+  background-size: cover;
+  position: relative;
 }
 
 .competition-card:hover {
